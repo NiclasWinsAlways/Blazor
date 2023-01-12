@@ -1,0 +1,18 @@
+﻿USE MASTER
+GO
+CREATE DATABASE Breakfasth1
+GO
+USE Breakfasth1
+GO
+
+CREATE TABLE Food (
+Id INT IDENTITY(1,1), -- AUTO GEN ID
+Item NVARCHAR(255),
+Amount INT,
+Cost DECIMAL(10,2)
+
+)
+
+INSERT INTO Food VALUES('Donut', 15,3)
+
+SELECT * FROM Food

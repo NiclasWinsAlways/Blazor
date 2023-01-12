@@ -1,0 +1,63 @@
+﻿@page "/fetchdata"
+
+<PageTitle>Breakfast</PageTitle>
+
+@using BlazorApp1.Data
+
+<h1>What to eat and how much</h1>
+
+<p>This is a very serious attempt to create a site for ordering breakfast for H1</p>
+
+@if (foodlist == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Item</th>
+                <th>Amount</th>
+                <th>Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Food food in foodlist)
+            {
+                <tr>
+                    <td>@food.Id <button @onclick="() => Delete(food.Id)">Delete</button></td>
+                    <td>@food.Item</td>
+                    <td>@food.Amount</td>
+                    <td>@food.Cost.ToString("0.00")</td>
+                </tr>
+            }
+            <tr>
+                <td><button @onclick="Add">Add</button></td>
+                <td><input @bind="food.Item"></td>
+                <td><input @bind="food.Amount"></td>
+                <td><input @bind="food.Cost"></td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+@code {
+    Food food = new();
+    List<Food> foodlist = new SQL().ReadFood();
+
+    void Add()
+    {
+        new SQL().CreateFood(food);
+        food = new();
+        foodlist = new SQL().ReadFood();
+    }
+
+    void Delete(int id)
+    {
+        new SQL().DeleteFood(id);
+        foodlist = new SQL().ReadFood();
+    }
+
+}
